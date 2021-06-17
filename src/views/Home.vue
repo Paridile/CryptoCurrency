@@ -1,6 +1,6 @@
 <template>
   <div class="currencies">    
-    <Currencies/>
+    <Currencies />
     
   </div>
 </template>
