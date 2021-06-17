@@ -19,7 +19,7 @@
               <p class="card-text">
                 {{ c.price_date }}
               </p>
-              <a class="btn custom-btn btn-primary">Ver más</a>
+              <a class="btn custom-btn btn-primary w-100">Details</a>
             </div>
           </div>
         </div>
