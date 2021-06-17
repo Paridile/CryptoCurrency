@@ -14,7 +14,7 @@
             <div class="card-body ">
               <h5 class="card-title">{{ c.name }}</h5>
               <p class="card-text">
-                $ <strong>{{ c.price }}</strong> USD
+                $ <strong>{{ c.price }}</strong> {{convert}}
               </p>
               <p class="card-text">
                 {{ c.price_date }}
@@ -76,13 +76,14 @@ export default {
     page: 1,
     pages: [],
     simbols: ["<<", ">>"],
+    convert: 'MXN'
   }),
   methods: {
     cambiarPagina(p) {
       this.page = p;
       axios
         .get(
-          `https://api.nomics.com/v1/currencies/ticker?key=1a2b63f7fe249f264cf860de3e9ff912838c5f1b&interval=1d,30d&per-page=20&page=${this.page}`
+          `https://api.nomics.com/v1/currencies/ticker?key=1a2b63f7fe249f264cf860de3e9ff912838c5f1b&interval=1d,30d&per-page=20&page=${this.page}&convert=${this.convert}`
         )
         .then((response) => {
           this.cryptos = response.data;
