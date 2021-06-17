@@ -1,5 +1,10 @@
 <template>
   <div class="currencies background-dark">    
+	  <div class="text-center">
+		  <h1 class="display-2 text-white">
+			  Crypto currencies
+		  </h1>
+	  </div>
     <Currencies />
     
   </div>

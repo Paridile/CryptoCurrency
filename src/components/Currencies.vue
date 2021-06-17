@@ -1,17 +1,17 @@
 <template>
   <div class="currencies">
-        <p>{{ax}}</p>
+    <p>{{ ax }}</p>
     <div class="row d-flex justify-content-center">
       <div class="" v-for="c in cryptos" :key="c.id">
         <div class="col-3">
-          <div class="card  text-white bg-dark mb-4" style="width: 18rem">
+          <div class="card text-white custom-dark mb-4" style="width: 18rem">
             <img
-              class="card-img-top custom-dark p-5"
+              class="card-img-top  p-5"
               :src="c.logo_url"
               alt="Logo"
-              style="height: 300px; max-width: 300px"
+              style="height: 18rem; max-width: 18rem"
             />
-            <div class="card-body custom-dark">
+            <div class="card-body ">
               <h5 class="card-title">{{ c.name }}</h5>
               <p class="card-text">
                 $ <strong>{{ c.price }}</strong> USD
@@ -27,22 +27,43 @@
     </div>
 
     <nav aria-label="Page navigation example ">
-      <ul class="pagination m-0 pb-4 pt-3  justify-content-center">
+      <ul class="pagination m-0 pb-4 pt-3 justify-content-center">
+        <li class="page-item">
+          <router-link :to="{ name: 'Currencies', params: { pagina: 1 } }">
+            <a
+              href=""
+              class="page-link pag-b bg-dark"
+              @click="cambiarPagina(1)"
+              >{{ simbols[0] }}</a
+            >
+          </router-link>
+        </li>
 
-        <div
-          v-for="p in newPages"
-          :key="p"          
-        >
-          <li class="page-item ">
-            <router-link :to="{name:'Currencies', params: {pagina: p}}">
-            <a href="" class="page-link pag-b bg-dark" @click="cambiarPagina(p)" >{{ p }}</a>
+        <div v-for="p in newPages" :key="p">
+          <li class="page-item">
+            <router-link :to="{ name: 'Currencies', params: { pagina: p } }">
+              <a
+                href=""
+                class="page-link pag-b bg-dark"
+                @click="cambiarPagina(p)"
+                >{{ p }}</a
+              >
             </router-link>
           </li>
         </div>
 
+        <li class="page-item">
+          <router-link :to="{ name: 'Currencies', params: { pagina: 99 } }">
+            <a
+              href=""
+              class="page-link pag-b bg-dark"
+              @click="cambiarPagina(99)"
+              >{{ simbols[1] }}</a
+            >
+          </router-link>
+        </li>
       </ul>
     </nav>
-
   </div>
 </template>
 
@@ -53,11 +74,12 @@ export default {
   data: () => ({
     cryptos: [],
     page: 1,
-    pages: []
+    pages: [],
+    simbols: ["<<", ">>"],
   }),
   methods: {
-    cambiarPagina(p) {      
-      this.page = p;      
+    cambiarPagina(p) {
+      this.page = p;
       axios
         .get(
           `https://api.nomics.com/v1/currencies/ticker?key=1a2b63f7fe249f264cf860de3e9ff912838c5f1b&interval=1d,30d&per-page=20&page=${this.page}`
@@ -70,56 +92,57 @@ export default {
         });
       window.scrollTo(0, 0);
     },
+    retroceder() {
+      this.page = parseInt(this.page) - 1;
+    },
   },
   computed: {
     newPages() {
-      let temp = []
+      let temp = [];
       for (let i = 4; i > 0; i--) {
-        if(parseInt(this.page)-i>=1) {
-          temp.push(parseInt(this.page)-i)
-        }        
+        if (parseInt(this.page) - i >= 1) {
+          temp.push(parseInt(this.page) - i);
+        }
       }
-      for(let i=0;i<5;i++) {
-        temp.push(i+parseInt(this.page))
+      for (let i = 0; i < 5; i++) {
+        if (i + parseInt(this.page) > 0 && i + parseInt(this.page) < 100) {
+          temp.push(i + parseInt(this.page));
+        }
       }
-      return temp
-    }
+      return temp;
+    },
   },
   created() {
     this.page = this.$route.params.pagina;
     this.cambiarPagina(this.page);
   },
-  
 };
 </script>
 
 <style >
-  .pag-b {
-    border: 1px solid #3c4d6b !important;
-    color: #bdc9c9;
-    background-color: #2b3546 !important;
-  }
-  .pag-b:hover {
-    color: #15b396;    
-  }
-  .custom-btn {
-    background-color: #15b396;
-    border: 1px solid rgb(54, 69, 95) !important;
-  }
-  .custom-btn:hover {
-    background-color: rgb(4, 138, 113);
-    border: 1px solid rgb(54, 69, 95) !important;
-  }
-  .custom-btn:active {
-    background-color: rgb(1, 88, 72) !important;
-    border: 1px solid rgb(54, 69, 95) !important;
-  }
-
-  .custom-dark {
-    background-color: rgb(50, 54, 75);
-    border: 0;
-    
-
-    
-  }
+.pag-b {
+  border: 1px solid #3c4d6b !important;
+  color: #bdc9c9;
+  background-color: #2b3546 !important;
+}
+.pag-b:hover {
+  color: #15b396;
+}
+.custom-btn {
+  background-color: #15b396;
+  border: 1px solid rgb(54, 69, 95) !important;
+}
+.custom-btn:hover {
+  background-color: rgb(4, 138, 113);
+  border: 1px solid rgb(54, 69, 95) !important;
+}
+.custom-btn:active {
+  background-color: rgb(1, 88, 72) !important;
+  border: 1px solid rgb(54, 69, 95) !important;
+}
+.custom-dark {
+  background-color: rgb(50, 54, 75);
+  border: 0;
+  box-shadow: 4px 4px 4px #2c2d3d;
+}
 </style>

@@ -11,10 +11,20 @@ const routes = [
     redirect: "/currencies/1",    
   },
   {
+    path: "/currencies",
+    name: "Redict",
+    redirect: "/currencies/1",    
+  },
+  {
     path: '/currencies/:pagina',
     name: 'Currencies',
     component: () => import('../components/Currencies.vue')
   },
+  {
+    path: '*',
+    name: 'notFound',
+    component: () => import('../views/Error404.vue')
+  },  
   {
     path: "/about",
     name: "About",
