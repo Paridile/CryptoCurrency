@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="back-dark">
     <div id="nav">
       <router-link to="/">Inicio</router-link> |
       <router-link to="/about">About</router-link>
@@ -13,7 +13,7 @@
 </script>
 
 <style>
-@import "assets/styles/custom.css";
+/* @import "assets/styles/custom.css"; */
 
 body {
   overflow-x: hidden;
@@ -33,11 +33,15 @@ body {
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #e6e8eb;
 }
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.back-dark {
+  background-color: #404f6b;
 }
 </style>
 
