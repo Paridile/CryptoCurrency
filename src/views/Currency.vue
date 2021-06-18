@@ -16,7 +16,21 @@
       </div>
     </div>
 
-    
+    <div class="container pb-4">
+      <div class="d-flex align-items-center justify-content-center">
+        <div class="text-center">
+          <div class="row text-white text-center">
+            <p class="pr-3">USD</p>
+            <label class="switch">
+              <input type="checkbox" v-model="checked" />
+              <span class="slider round" @click="cambiarMoneda(page)"></span>
+            </label>
+            <p class="pl-3">MXN</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="row d-flex justify-content-center">
       <div class="" v-for="c in cryptos" :key="c.id">
         <div class="col-3">
@@ -35,8 +49,10 @@
               <p class="card-text">
                 $ <strong>{{ c.price }}</strong> {{ convert }}
               </p>
-              <p class="card-text">                
-				<span class="badge rounded-pill bg-tag">{{ c.price_date }}</span>
+              <p class="card-text">
+                <span class="badge rounded-pill bg-tag">{{
+                  c.price_date
+                }}</span>
               </p>
               <a class="btn custom-btn btn-primary w-100">Details</a>
             </div>
@@ -95,18 +111,18 @@ export default {
     page: 1,
     pages: [],
     simbols: ["<<", ">>"],
-    convert: "MXN",
     isLoading: false,
+    checked: false,
+    convert: 'MXN',
   }),
   methods: {
     cambiarPagina(p) {
       this.page = p;
-	  window.scrollTo(0, 0)
-	  this.isLoading=true
+      window.scrollTo(0, 0);
+      this.isLoading = true;
+      const url = `https://api.nomics.com/v1/currencies/ticker?key=1a2b63f7fe249f264cf860de3e9ff912838c5f1b&interval=1d,30d&per-page=20&page=${this.page}&convert=${this.convert}`;
       axios
-        .get(
-          `https://api.nomics.com/v1/currencies/ticker?key=1a2b63f7fe249f264cf860de3e9ff912838c5f1b&interval=1d,30d&per-page=20&page=${this.page}&convert=${this.convert}`
-        )
+        .get(url)
         .then((response) => {
           this.cryptos = response.data;
         })
@@ -114,12 +130,17 @@ export default {
           console.log(e);
         })
         .finally(() => {
-          this.isLoading=false
+          this.isLoading = false;
         });
     },
-    retroceder() {
-      this.page = parseInt(this.page) - 1;
-    },
+	cambiarMoneda(p) {
+      if (this.checked) {
+        this.convert = "USD";
+      } else {
+        this.convert = "MXN";
+      }
+		this.cambiarPagina(p)
+	}
   },
   computed: {
     newPages() {
@@ -136,10 +157,16 @@ export default {
       }
       return temp;
     },
+    // convert() {
+    // 	return this.checked ? 'USD' : 'MXN'
+    // },
   },
   created() {
     this.page = this.$route.params.pagina;
     this.cambiarPagina(this.page);
+  },
+  beforeMount() {
+    this.checked = true;
   },
 };
 </script>
@@ -175,7 +202,7 @@ export default {
 }
 
 .bg-tag {
-	background-color: #395e9e;
+  background-color: #395e9e;
 }
 
 .loading {
@@ -186,5 +213,56 @@ export default {
   top: 0;
   background: rgba(82, 101, 163, 0.7);
   z-index: 10000 !important;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #1f2a3b;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+input:checked + .slider {
+  background-color: #15b396;
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px #15b396;
+}
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round:before {
+  border-radius: 50%;
 }
 </style>
