@@ -1,0 +1,24 @@
+$blue: #007bff !important; 
+$indigo: #6610f2 !important;
+$purple: #6f42c1 !important;
+$pink: #e83e8c !important;
+$red: #dc3545 !important;
+$orange: #fd7e14 !important;
+$yellow: #ffc107 !important;
+$green: #28a745 !important;
+$teal: #20c997 !important;
+$cyan: #17a2b8 !important;
+$white: #fff !important;
+$gray: #6c757d !important;
+$gray-dark: #343a40 !important;
+$primary: #0fbb82 !important;
+$secondary: #6c757d !important;
+$success: #28a745 !important;
+$info: #17a2b8 !important;
+$warning: #ffc107 !important;
+$danger: #dc3545 !important;
+$light: #505174 !important;
+$dark: #3d3e52 !important;
+
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+@import '../../../node_modules/bootstrap-vue/src/index.scss';
